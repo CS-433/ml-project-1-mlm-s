@@ -22,8 +22,8 @@ def mean_squared_error_gd(y, tx, initial_w, max_iters, gamma):
     threshold = 1e-8
 
     # Define parameters to store w and loss
-    ws = [initial_w]
-    losses = []
+    #ws = [initial_w]
+    #losses = []
     w = initial_w
     for n_iter in range(max_iters):
 
@@ -34,13 +34,13 @@ def mean_squared_error_gd(y, tx, initial_w, max_iters, gamma):
         # Update w by gradient
         w = w - gamma * gradient
         # store w and loss
-        ws.append(w)
-        losses.append(loss)
+        #ws.append(w)
+        #losses.append(loss) (no need to store every iteration)
 
         if len(losses) > 1 and np.abs(losses[-1] - losses[-2]) < threshold:
             break  # convergence criterion met
 
-    return w, losses
+    return w, loss
 
     # def mean_squared_error_sgd(y, tx, initial_w, max_iters, gamma):
     # hugo

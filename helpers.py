@@ -78,7 +78,7 @@ def compute_log_loss(y, tx, w):
     loss = y.T.dot(np.log(logistic_function)) + (1 - y).T.dot(
         np.log(1 - logistic_function)
     )
-    return loss
+    return np.squeeze(- loss).item()
     # np.squeeze? np.item() ?
 
 
