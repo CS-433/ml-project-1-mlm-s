@@ -16,29 +16,30 @@ def mean_squared_error_gd(y, tx, initial_w, max_iters, gamma):
         gamma: a scalar denoting the stepsize
 
     Returns:
-        (w[-1], losses[-1]) : the last weight vector of the iteration and its corresponding loss value
+        (w, loss) : the last weight vector of the iteration and its corresponding loss value
     """
     # Define treshold
     threshold = 1e-8
 
     # Define parameters to store w and loss
     #ws = [initial_w]
-    #losses = []
+    losses = []
     w = initial_w
     for n_iter in range(max_iters):
 
         # Compute gradient and loss
         gradient = compute_gradient(y, tx, w)
+        
         loss = compute_mse(y, tx, w)
 
         # Update w by gradient
         w = w - gamma * gradient
         # store w and loss
         #ws.append(w)
-        #losses.append(loss) (no need to store every iteration)
+        losses.append(loss) 
 
-        #if len(losses) > 1 and np.abs(losses[-1] - losses[-2]) < threshold:
-            #break  # convergence criterion met
+        if len(losses) > 1 and np.abs(losses[-1] - losses[-2]) < threshold:
+            break  # convergence criterion met
 
     return w, loss
 
