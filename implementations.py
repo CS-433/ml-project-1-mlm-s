@@ -4,6 +4,7 @@ from helpers import compute_mse
 from helpers import compute_log_gradient
 from helpers import compute_log_loss
 
+
 def mean_squared_error_gd(y, tx, initial_w, max_iters, gamma):
     """
     Linear Regression using gradient descent:
@@ -17,7 +18,7 @@ def mean_squared_error_gd(y, tx, initial_w, max_iters, gamma):
     Returns:
         (w[-1], losses[-1]) : the last weight vector of the iteration and its corresponding loss value
     """
-    #Define treshold
+    # Define treshold
     threshold = 1e-8
 
     # Define parameters to store w and loss
@@ -25,11 +26,11 @@ def mean_squared_error_gd(y, tx, initial_w, max_iters, gamma):
     losses = []
     w = initial_w
     for n_iter in range(max_iters):
-    
+
         # Compute gradient and loss
         gradient = compute_gradient(y, tx, w)
         loss = compute_mse(y, tx, w)
-    
+
         # Update w by gradient
         w = w - gamma * gradient
         # store w and loss
@@ -37,10 +38,9 @@ def mean_squared_error_gd(y, tx, initial_w, max_iters, gamma):
         losses.append(loss)
 
         if len(losses) > 1 and np.abs(losses[-1] - losses[-2]) < threshold:
-             break # convergence criterion met
-    
-    return w[-1], losses[-1]
+            break  # convergence criterion met
 
+    return w[-1], losses[-1]
 
     # def mean_squared_error_sgd(y, tx, initial_w, max_iters, gamma):
     # hugo
@@ -49,35 +49,35 @@ def mean_squared_error_gd(y, tx, initial_w, max_iters, gamma):
 def least_squares(y, tx):
     """Calculate the least squares solution using normal equations.
        returns mse, and optimal weights.
-    
+
     Args:
         y: numpy array of shape (N,), N is the number of samples.
         tx: numpy array of shape (N,D), D is the number of features.
-    
+
     Returns:
-        w[-1]: the optimal weight vector 
+        w[-1]: the optimal weight vector
         loss: corresponding MSE loss (a scalar).
     """
 
     # least squares:
-    A = np.dot(tx.T,tx)
-    b = np.dot(tx.T,y)
+    A = np.dot(tx.T, tx)
+    b = np.dot(tx.T, y)
     w = np.linalg.solve(A, b)
 
     loss = compute_mse(y, tx, w)
-    return w[-1] , loss
-    
+    return w[-1], loss
+
 
 def ridge_regression(y, tx, lambda_):
     """Ridge regression using normal equations.
-    
+
     Args:
         y: numpy array of shape (N,), N is the number of samples.
         tx: numpy array of shape (N,D), D is the number of features.
         lambda_: scalar.
-    
+
     Returns:
-        w[-1]: the optimal weight vector 
+        w[-1]: the optimal weight vector
         loss: corresponding MSE loss (a scalar).
     """
 
@@ -87,7 +87,7 @@ def ridge_regression(y, tx, lambda_):
     w = np.linalg.solve(A, b)
 
     loss = compute_mse(y, tx, w)
-    return w[-1] , loss
+    return w[-1], loss
 
 
 def logistic_regression(y, tx, initial_w, max_iters, gamma):
@@ -102,7 +102,7 @@ def logistic_regression(y, tx, initial_w, max_iters, gamma):
     Returns:
         (w[-1], losses[-1]) : the last weight vector of the iteration and its corresponding loss value
     """
-    #treshold init
+    # treshold init
     threshold = 1e-8
 
     # Define parameters to store w and loss
@@ -122,21 +122,22 @@ def logistic_regression(y, tx, initial_w, max_iters, gamma):
         losses.append(loss)
 
         if len(losses) > 1 and np.abs(losses[-1] - losses[-2]) < threshold:
-             break # convergence criterion met
+            break  # convergence criterion met
 
     return ws[-1], losses[-1]
+
 
 def reg_logistic_regression(y, tx, lambda_, initial_w, max_iters, gamma):
     """Regularized logistic regression using gradient descent.
 
-        Args:
-            y:  shape=(N, 1)
-            initial_w: shape=(D, ). The initial guess (or the initialization) for the model parameters
-            max_iters: a scalar denoting the total number of iterations of GD
-            gamma: a scalar denoting the stepsize
-        Returns:
-            (w[-1], losses[-1]) : the last weight vector of the iteration and its corresponding loss value after regularization
-        """
+    Args:
+        y:  shape=(N, 1)
+        initial_w: shape=(D, ). The initial guess (or the initialization) for the model parameters
+        max_iters: a scalar denoting the total number of iterations of GD
+        gamma: a scalar denoting the stepsize
+    Returns:
+        (w[-1], losses[-1]) : the last weight vector of the iteration and its corresponding loss value after regularization
+    """
 
     threshold = 1e-8
     # Define parameters to store w and loss
@@ -156,9 +157,6 @@ def reg_logistic_regression(y, tx, lambda_, initial_w, max_iters, gamma):
         losses.append(loss_reg)
 
         if len(losses) > 1 and np.abs(losses[-1] - losses[-2]) < threshold:
-            break # convergence criterion met
+            break  # convergence criterion met
 
     return ws[-1], losses[-1]
-
-
-    
