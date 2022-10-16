@@ -126,25 +126,23 @@ def logistic_regression(y, tx, initial_w, max_iters, gamma):
 
     return ws[-1], losses[-1]
 
-    def reg_logistic_regression(y, tx, lambda_, initial_w, max_iters, gamma)
-    """Regularized logistic regression using gradient descent
+def reg_logistic_regression(y, tx, lambda_, initial_w, max_iters, gamma):
+    """Regularized logistic regression using gradient descent.
 
-    Args:
-        y:  shape=(N, 1)
-        initial_w: shape=(D, ). The initial guess (or the initialization) for the model parameters
-        max_iters: a scalar denoting the total number of iterations of GD
-        gamma: a scalar denoting the stepsize
-    Returns:
-        (w[-1], losses[-1]) : the last weight vector of the iteration and its corresponding loss value after regularization
-    """
+        Args:
+            y:  shape=(N, 1)
+            initial_w: shape=(D, ). The initial guess (or the initialization) for the model parameters
+            max_iters: a scalar denoting the total number of iterations of GD
+            gamma: a scalar denoting the stepsize
+        Returns:
+            (w[-1], losses[-1]) : the last weight vector of the iteration and its corresponding loss value after regularization
+        """
 
     threshold = 1e-8
     # Define parameters to store w and loss
     ws = [initial_w]
     losses = []
     w = initial_w
-
-    gradient = calculate_gradient(y, tx, w) + 2 * lambda_ * w
 
     for n_iter in range(max_iters):
         # Compute gradient and loss
@@ -163,4 +161,4 @@ def logistic_regression(y, tx, initial_w, max_iters, gamma):
     return ws[-1], losses[-1]
 
 
- 
+    
