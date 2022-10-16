@@ -22,14 +22,14 @@ def mean_squared_error_gd(y, tx, initial_w, max_iters, gamma):
     threshold = 1e-8
 
     # Define parameters to store w and loss
-    #ws = [initial_w]
+    ws = [initial_w]
     losses = []
     w = initial_w
     for n_iter in range(max_iters):
 
         # Compute gradient and loss
         gradient = compute_gradient(y, tx, w)
-        
+
         loss = compute_mse(y, tx, w)
 
         # Update w by gradient
