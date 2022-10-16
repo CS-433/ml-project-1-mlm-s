@@ -37,8 +37,8 @@ def mean_squared_error_gd(y, tx, initial_w, max_iters, gamma):
         #ws.append(w)
         #losses.append(loss) (no need to store every iteration)
 
-        if len(losses) > 1 and np.abs(losses[-1] - losses[-2]) < threshold:
-            break  # convergence criterion met
+        #if len(losses) > 1 and np.abs(losses[-1] - losses[-2]) < threshold:
+            #break  # convergence criterion met
 
     return w, loss
 
