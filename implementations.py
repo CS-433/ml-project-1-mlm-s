@@ -87,7 +87,7 @@ def ridge_regression(y, tx, lambda_):
     w = np.linalg.solve(A, b)
 
     loss = compute_mse(y, tx, w)
-    return w[-1], loss
+    return w, loss
 
 
 def logistic_regression(y, tx, initial_w, max_iters, gamma):
@@ -124,7 +124,7 @@ def logistic_regression(y, tx, initial_w, max_iters, gamma):
         if len(losses) > 1 and np.abs(losses[-1] - losses[-2]) < threshold:
             break  # convergence criterion met
 
-    return ws[-1], losses[-1]
+    return ws, losses
 
 
 def reg_logistic_regression(y, tx, lambda_, initial_w, max_iters, gamma):
@@ -159,4 +159,4 @@ def reg_logistic_regression(y, tx, lambda_, initial_w, max_iters, gamma):
         if len(losses) > 1 and np.abs(losses[-1] - losses[-2]) < threshold:
             break  # convergence criterion met
 
-    return ws[-1], losses[-1]
+    return ws, losses
