@@ -20,7 +20,6 @@ def mean_squared_error_gd(y, tx, initial_w, max_iters, gamma):
 
     # Define parameters to store w and loss
     w = initial_w
-    loss = compute_mse(y, tx, w)
     for n_iter in range(max_iters):
 
         # Compute gradient and loss
@@ -32,6 +31,8 @@ def mean_squared_error_gd(y, tx, initial_w, max_iters, gamma):
 
         if np.linalg.norm(gradient) < threshold:
             break  # convergence criterion met
+
+    loss = compute_mse(y, tx, w)
     return w, loss
 
 
@@ -128,7 +129,7 @@ def logistic_regression(y, tx, initial_w, max_iters, gamma):
 
     # Define w and loss at step 0
     w = initial_w
-    loss = compute_log_loss(y, tx, w)
+    loss = np.Infinity
 
     for n_iter in range(max_iters):
         # Compute gradient and loss
@@ -141,6 +142,7 @@ def logistic_regression(y, tx, initial_w, max_iters, gamma):
         if np.linalg.norm(log_gradient) < threshold:
             break  # convergence criterion met
 
+    loss = compute_log_loss(y, tx, w)
     return w, loss
 
 
@@ -159,7 +161,6 @@ def reg_logistic_regression(y, tx, lambda_, initial_w, max_iters, gamma):
     threshold = 1e-8
     # Define w and loss at step 0
     w = initial_w
-    loss_reg = compute_log_loss(y, tx, w) + lambda_ * np.squeeze(w.T.dot(w))
 
     for n_iter in range(max_iters):
         # Compute gradient and loss
@@ -172,4 +173,5 @@ def reg_logistic_regression(y, tx, lambda_, initial_w, max_iters, gamma):
         if np.linalg.norm(log_gradient) < threshold:
             break  # convergence criterion met
 
+    loss_reg = compute_log_loss(y, tx, w) + lambda_ * np.squeeze(w.T.dot(w))
     return w, loss_reg

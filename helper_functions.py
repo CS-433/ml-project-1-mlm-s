@@ -117,7 +117,7 @@ def compute_log_loss(y, tx, w):
     loss = y.T.dot(np.log(logistic_function)) + (1 - y).T.dot(
         np.log(1 - logistic_function)
     )
-    return np.squeeze(-loss).item() / len(y)
+    return (np.squeeze(-loss).item()) / len(y)
 
 
 def compute_log_gradient(y, tx, w):
@@ -132,5 +132,5 @@ def compute_log_gradient(y, tx, w):
         An array of shape (D, ) (same shape as w), containing the logistic gradient of the loss at w.
     """
     logistic_function = sigmoid(tx.dot(w))
-    log_gradient = tx.T.dot(logistic_function - y) / len(y)
+    log_gradient = (tx.T.dot(logistic_function - y)) / len(y)
     return log_gradient
