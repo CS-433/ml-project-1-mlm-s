@@ -1,9 +1,5 @@
 import numpy as np
-from helpers import compute_gradient
-from helpers import compute_mse
-from helpers import compute_log_gradient
-from helpers import compute_log_loss
-
+from helpers import *
 
 def mean_squared_error_gd(y, tx, initial_w, max_iters, gamma):
     """
@@ -22,30 +18,58 @@ def mean_squared_error_gd(y, tx, initial_w, max_iters, gamma):
     threshold = 1e-8
 
     # Define parameters to store w and loss
-    ws = [initial_w]
     losses = []
     w = initial_w
     for n_iter in range(max_iters):
 
         # Compute gradient and loss
         gradient = compute_gradient(y, tx, w)
-
         loss = compute_mse(y, tx, w)
 
         # Update w by gradient
         w = w - gamma * gradient
         # store w and loss
-        #ws.append(w)
         losses.append(loss) 
 
         if len(losses) > 1 and np.abs(losses[-1] - losses[-2]) < threshold:
             break  # convergence criterion met
 
-    print(w, loss)
+    loss = compute_mse(y, tx, w)
     return w, loss
 
-    # def mean_squared_error_sgd(y, tx, initial_w, max_iters, gamma):
-    # hugo
+def mean_squared_error_sgd(y, tx, initial_w, max_iters, gamma):
+    """
+    Linear Regression using stochastic gradient descent:
+    Args:
+        y: shape=(N, )
+        tx: shape=(N,D)
+        initial_w: shape=(D, ). The initial guess (or the initialization) for the model parameters
+        max_iters: a scalar denoting the total number of iterations of GD
+        batch_
+        gamma: a scalar denoting the stepsize
+
+    Returns:
+        (w, loss) : the last weight vector of the iteration and its corresponding loss value
+    """
+    # Define treshold
+    threshold = 1e-8
+
+    # Define parameters to store w and loss
+    losses = []
+    w = initial_w
+    for n_iter in range(max_iters):
+        for y_batch, tx_batch in batch_iter(y, tx, batch_size=1, num_batches=1):
+            # compute a stochastic gradient and loss
+            grad, _ = compute_stoch_gradient(y_batch, tx_batch, w)
+            # update w through the stochastic gradient update
+            w = w - gamma * grad
+            # calculate loss
+            loss = compute_mse(y, tx, w)
+            # store w and loss
+            losses.append(loss)
+
+        loss = compute_mse(y, tx, w)
+    return w, loss
 
 
 def least_squares(y, tx):
@@ -108,7 +132,6 @@ def logistic_regression(y, tx, initial_w, max_iters, gamma):
     threshold = 1e-8
 
     # Define parameters to store w and loss
-    ws = [initial_w]
     losses = []
     w = initial_w
 
@@ -120,13 +143,13 @@ def logistic_regression(y, tx, initial_w, max_iters, gamma):
         # Update w by gradient
         w = w - gamma * log_gradient
         # store w and loss
-        ws.append(w)
         losses.append(loss)
 
         if len(losses) > 1 and np.abs(losses[-1] - losses[-2]) < threshold:
             break  # convergence criterion met
 
-    return ws, losses
+    loss = compute_log_loss(y, tx, w)
+    return w, loss
 
 
 def reg_logistic_regression(y, tx, lambda_, initial_w, max_iters, gamma):
@@ -143,7 +166,6 @@ def reg_logistic_regression(y, tx, lambda_, initial_w, max_iters, gamma):
 
     threshold = 1e-8
     # Define parameters to store w and loss
-    ws = [initial_w]
     losses = []
     w = initial_w
 
@@ -155,10 +177,10 @@ def reg_logistic_regression(y, tx, lambda_, initial_w, max_iters, gamma):
         # Update w by gradient
         w = w - gamma * log_gradient
         # store w and loss
-        ws.append(w)
         losses.append(loss_reg)
 
         if len(losses) > 1 and np.abs(losses[-1] - losses[-2]) < threshold:
             break  # convergence criterion met
+    loss_reg = compute_log_loss(y, tx, w) + lambda_ * np.squeeze(w.T.dot(w))
 
-    return ws, losses
+    return w, loss_reg
