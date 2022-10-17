@@ -61,12 +61,12 @@ def mean_squared_error_sgd(y, tx, initial_w, max_iters, gamma):
     w = initial_w
     for n_iter in range(max_iters):
         for y_batch, tx_batch in batch_iter(y, tx, batch_size=1, num_batches=1):
+
             # compute a stochastic gradient and loss
-            grad, _ = compute_stoch_gradient(y_batch, tx_batch, w)
-            # update w through the stochastic gradient update
-            w = w - gamma * grad
-            # calculate loss
+            stoch_gradient = compute_stoch_gradient(y_batch, tx_batch, w)
             loss = compute_mse(y, tx, w)
+            # update w through the stochastic gradient
+            w = w - gamma * stoch_gradient
             # store w and loss
             losses.append(loss)
 
@@ -151,6 +151,7 @@ def logistic_regression(y, tx, initial_w, max_iters, gamma):
             break  # convergence criterion met
 
     loss = compute_log_loss(y, tx, w)
+
     return w, loss
 
 
