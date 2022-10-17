@@ -19,8 +19,8 @@ def mean_squared_error_gd(y, tx, initial_w, max_iters, gamma):
     threshold = 1e-8
 
     # Define parameters to store w and loss
-    losses = []
     w = initial_w
+    loss = compute_mse(y, tx, w)
     for n_iter in range(max_iters):
 
         # Compute gradient and loss
@@ -29,13 +29,9 @@ def mean_squared_error_gd(y, tx, initial_w, max_iters, gamma):
 
         # Update w by gradient
         w = w - gamma * gradient
-        # store w and loss
-        losses.append(loss)
 
-        if len(losses) > 1 and np.abs(losses[-1] - losses[-2]) < threshold:
+        if np.linalg.norm(gradient) < threshold:
             break  # convergence criterion met
-
-    loss = compute_mse(y, tx, w)
     return w, loss
 
 
@@ -56,9 +52,9 @@ def mean_squared_error_sgd(y, tx, initial_w, max_iters, gamma):
     # Define treshold
     threshold = 1e-8
 
-    # Define parameters to store w and loss
-    losses = []
+    # Define w and loss at step 0
     w = initial_w
+
     for n_iter in range(max_iters):
         for y_batch, tx_batch in batch_iter(y, tx, batch_size=1, num_batches=1):
 
@@ -67,10 +63,9 @@ def mean_squared_error_sgd(y, tx, initial_w, max_iters, gamma):
             loss = compute_mse(y, tx, w)
             # update w through the stochastic gradient
             w = w - gamma * stoch_gradient
-            # store w and loss
-            losses.append(loss)
 
-        loss = compute_mse(y, tx, w)
+    loss = compute_mse(y, tx, w)
+    
     return w, loss
 
 
@@ -128,29 +123,25 @@ def logistic_regression(y, tx, initial_w, max_iters, gamma):
         gamma: a scalar denoting the stepsize
 
     Returns:
-        (w[-1], losses[-1]) : the last weight vector of the iteration and its corresponding loss value
+        (w, losses) : the last weight vector of the iteration and its corresponding loss value
     """
     # treshold init
     threshold = 1e-8
 
-    # Define parameters to store w and loss
-    losses = []
+    # Define w and loss at step 0
     w = initial_w
+    loss = compute_log_loss(y, tx, w)
 
     for n_iter in range(max_iters):
         # Compute gradient and loss
-        log_gradient = compute_log_gradient(y, tx, w) / len(y)
-        loss = compute_log_loss(y, tx, w) / len(y)
+        log_gradient = compute_log_gradient(y, tx, w)
+        loss = compute_log_loss(y, tx, w)
 
         # Update w by gradient
         w = w - gamma * log_gradient
-        # store w and loss
-        losses.append(loss)
 
-        if len(losses) > 1 and np.abs(losses[-1] - losses[-2]) < threshold:
+        if np.linalg.norm(log_gradient) < threshold:
             break  # convergence criterion met
-
-    loss = compute_log_loss(y, tx, w) / len(y)
 
     return w, loss
 
@@ -168,9 +159,9 @@ def reg_logistic_regression(y, tx, lambda_, initial_w, max_iters, gamma):
     """
 
     threshold = 1e-8
-    # Define parameters to store w and loss
-    losses = []
+    # Define w and loss at step 0
     w = initial_w
+    loss_reg = compute_log_loss(y, tx, w) + lambda_ * np.squeeze(w.T.dot(w))
 
     for n_iter in range(max_iters):
         # Compute gradient and loss
@@ -179,11 +170,8 @@ def reg_logistic_regression(y, tx, lambda_, initial_w, max_iters, gamma):
 
         # Update w by gradient
         w = w - gamma * log_gradient
-        # store w and loss
-        losses.append(loss_reg)
 
-        if len(losses) > 1 and np.abs(losses[-1] - losses[-2]) < threshold:
+        if np.linalg.norm(log_gradient) < threshold:
             break  # convergence criterion met
-    loss_reg = compute_log_loss(y, tx, w) + lambda_ * np.squeeze(w.T.dot(w))
 
     return w, loss_reg
