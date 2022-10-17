@@ -50,6 +50,7 @@ def compute_gradient(y, tx, w):
     gradient = -tx.T.dot(e) / len(e)
     return gradient
 
+
 def compute_stoch_gradient(y, tx, w):
     """Computes the stochastic gradient for few samples.
 
@@ -64,6 +65,7 @@ def compute_stoch_gradient(y, tx, w):
     e = e_vector(y, tx, w)
     stoch_gradient = -tx.T.dot(e) / len(e)
     return stoch_gradient
+
 
 def batch_iter(y, tx, batch_size, num_batches=1, shuffle=True):
     """
@@ -86,6 +88,7 @@ def batch_iter(y, tx, batch_size, num_batches=1, shuffle=True):
         end_index = min((batch_num + 1) * batch_size, data_size)
         if start_index != end_index:
             yield shuffled_y[start_index:end_index], shuffled_tx[start_index:end_index]
+
 
 def sigmoid(t):
     """apply the sigmoid function on t.
@@ -114,7 +117,7 @@ def compute_log_loss(y, tx, w):
     loss = y.T.dot(np.log(logistic_function)) + (1 - y).T.dot(
         np.log(1 - logistic_function)
     )
-    return np.squeeze(- loss).item()
+    return np.squeeze(-loss).item()
     # np.squeeze? np.item() ?
 
 

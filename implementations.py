@@ -1,6 +1,7 @@
 import numpy as np
 from helpers import *
 
+
 def mean_squared_error_gd(y, tx, initial_w, max_iters, gamma):
     """
     Linear Regression using gradient descent:
@@ -29,13 +30,14 @@ def mean_squared_error_gd(y, tx, initial_w, max_iters, gamma):
         # Update w by gradient
         w = w - gamma * gradient
         # store w and loss
-        losses.append(loss) 
+        losses.append(loss)
 
         if len(losses) > 1 and np.abs(losses[-1] - losses[-2]) < threshold:
             break  # convergence criterion met
 
     loss = compute_mse(y, tx, w)
     return w, loss
+
 
 def mean_squared_error_sgd(y, tx, initial_w, max_iters, gamma):
     """
