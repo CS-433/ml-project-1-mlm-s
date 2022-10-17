@@ -65,6 +65,7 @@ def mean_squared_error_sgd(y, tx, initial_w, max_iters, gamma):
             # update w through the stochastic gradient
             w = w - gamma * stoch_gradient
 
+    loss = compute_mse(y, tx, w)
     return w, loss
 
 
