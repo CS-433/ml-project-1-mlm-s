@@ -1,5 +1,5 @@
 import numpy as np
-from helpers import *
+from helper_functions import *
 
 
 def mean_squared_error_gd(y, tx, initial_w, max_iters, gamma):
@@ -139,8 +139,8 @@ def logistic_regression(y, tx, initial_w, max_iters, gamma):
 
     for n_iter in range(max_iters):
         # Compute gradient and loss
-        log_gradient = compute_log_gradient(y, tx, w)
-        loss = compute_log_loss(y, tx, w)
+        log_gradient = compute_log_gradient(y, tx, w) / len(y)
+        loss = compute_log_loss(y, tx, w) / len(y)
 
         # Update w by gradient
         w = w - gamma * log_gradient
@@ -150,7 +150,7 @@ def logistic_regression(y, tx, initial_w, max_iters, gamma):
         if len(losses) > 1 and np.abs(losses[-1] - losses[-2]) < threshold:
             break  # convergence criterion met
 
-    loss = compute_log_loss(y, tx, w)
+    loss = compute_log_loss(y, tx, w) / len(y)
 
     return w, loss
 
