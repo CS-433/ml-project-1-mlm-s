@@ -162,6 +162,7 @@ def reg_logistic_regression(y, tx, lambda_, initial_w, max_iters, gamma):
     threshold = 1e-8
     # Define w and loss at step 0
     w = initial_w
+    loss = np.Infinity
 
     for n_iter in range(max_iters):
         # Compute gradient and loss
@@ -176,3 +177,4 @@ def reg_logistic_regression(y, tx, lambda_, initial_w, max_iters, gamma):
 
     loss_reg = compute_log_loss(y, tx, w) + lambda_ * np.squeeze(w.T.dot(w))
     return w, loss_reg
+
