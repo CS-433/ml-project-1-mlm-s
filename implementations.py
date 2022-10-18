@@ -147,6 +147,7 @@ def logistic_regression(y, tx, initial_w, max_iters, gamma):
     return w, loss
 
 
+
 def reg_logistic_regression(y, tx, lambda_, initial_w, max_iters, gamma):
     """Regularized logistic regression using gradient descent.
 
@@ -167,7 +168,7 @@ def reg_logistic_regression(y, tx, lambda_, initial_w, max_iters, gamma):
     for n_iter in range(max_iters):
         # Compute gradient and loss
         log_gradient = compute_log_gradient(y, tx, w) + 2 * lambda_ * w
-        loss_reg = compute_log_loss(y, tx, w) + lambda_ * np.squeeze(w.T.dot(w))
+        loss_reg = compute_log_loss(y, tx, w) 
 
         # Update w by gradient
         w = w - gamma * log_gradient
@@ -175,6 +176,5 @@ def reg_logistic_regression(y, tx, lambda_, initial_w, max_iters, gamma):
         if np.linalg.norm(log_gradient) < threshold:
             break  # convergence criterion met
 
-    loss_reg = compute_log_loss(y, tx, w) + lambda_ * np.squeeze(w.T.dot(w))
+    loss_reg = compute_log_loss(y, tx, w) 
     return w, loss_reg
-
