@@ -44,7 +44,7 @@ To tackle the problem, we started by cleaning and processing the raw data, appli
 
  `Numpy` is necessary to run our code. It can be installed with the following command: ```pip3 install --user numpy```. No other packages were used.
 
- You need to **download `train.csv` and `test.csv`** and place them in the  `dataset` folder. These files can be found [here](https://www.kaggle.com/c/higgs-boson/data).
+ You need to **download `train.csv` and `test.csv`** and place them in the  `dataset` folder. These files can be found [here](https://www.kaggle.com/c/higgs-boson/data). If you do not place them in the `dataset` folder, make sure to change the path used in `run.py`.
 
  To **run the code**, you need to execute `run.py`, which is in the `script` folder. This will train the optimal model and provide the output predictions in the `submission.csv`, which will be stored in the `dataset` folder.
 
